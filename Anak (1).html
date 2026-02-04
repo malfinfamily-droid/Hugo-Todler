@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catatan Tumbuh Kembang Hugo</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #1a2942;
+            --blue: #2d5f8d;
+            --accent: #f4a261;
+            --green: #2a9d8f;
+            --red: #e76f51;
+            --cream: #fef8f3;
+            --white: #ffffff;
+            --text: #2c3e50;
+            --text-light: #6c757d;
+            --shadow: rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            box-shadow: 0 4px 20px var(--shadow);
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            padding: 12px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        nav li {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        nav button {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--cream);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        nav button:hover {
+            background: var(--accent);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(244, 162, 97, 0.3);
+        }
+
+        nav button.active {
+            background: var(--navy);
+            color: var(--white);
+            border-color: var(--accent);
+        }
+
+        /* Content Card */
+        .content-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            display: none;
+            animation: fadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 30px;
+            background: linear-gradient(135deg, var(--navy), var(--blue));
+            color: var(--white);
+            border-radius: 20px;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(244,162,97,0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 3.2em;
+            margin-bottom: 20px;
+            font-weight: 900;
+            position: relative;
+            letter-spacing: -0.02em;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .hero .subtitle {
+            font-size: 1.15em;
+            margin-top: 12px;
+            font-weight: 400;
+            opacity: 0.85;
+        }
+
+        /* Typography */
+        h2 {
+            font-family: 'Fraunces', serif;
+            color: var(--navy);
+            font-size: 2.4em;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid var(--accent);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+
+        h3 {
+            font-family: 'Fraunces', serif;
+            color: var(--blue);
+            font-size: 1.8em;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        h4 {
+            color: var(--navy);
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        p {
+            margin-bottom: 18px;
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        /* Profile Cards */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, var(--cream) 0%, #fff 100%);
+            padding: 30px;
+            border-radius: 16px;
+            border-left: 5px solid var(--accent);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .profile-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+
+        .profile-card h4 {
+            margin-top: 0;
+            color: var(--navy);
+        }
+
+        .profile-card.strength {
+            border-left-color: var(--green);
+        }
+
+        .profile-card.developing {
+            border-left-color: var(--accent);
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 12px 0;
+            line-height: 1.75;
+        }
+
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .checklist li {
+            padding: 16px 20px;
+            margin: 10px 0;
+            background: var(--cream);
+            border-radius: 12px;
+            position: relative;
+            padding-left: 55px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 18px;
+            font-size: 1.4em;
+            color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .checklist li:hover {
+            background: #fff;
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .checklist li.checked:before {
+            content: "✓";
+            color: var(--green);
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f5f9fc 100%);
+            border-left: 5px solid var(--blue);
+            padding: 25px 30px;
+            margin: 30px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .info-box.warning {
+            background: linear-gradient(135deg, #fff3e0 0%, #fffaf5 100%);
+            border-left-color: var(--accent);
+        }
+
+        .info-box.success {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f5fbf5 100%);
+            border-left-color: var(--green);
+        }
+
+        .info-box.note {
+            background: linear-gradient(135deg, #f3e5f5 0%, #faf5fb 100%);
+            border-left-color: #9c27b0;
+        }
+
+        .info-box h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        /* Schedule Table */
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 4px 20px var(--shadow);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .schedule-table thead {
+            background: linear-gradient(135deg, var(--navy), var(--blue));
+            color: var(--white);
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            padding: 18px 20px;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .schedule-table tbody tr {
+            transition: background 0.3s ease;
+        }
+
+        .schedule-table tbody tr:hover {
+            background: var(--cream);
+        }
+
+        .schedule-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #e9ecef;
+        }
+
+        .tab-button {
+            padding: 14px 28px;
+            background: transparent;
+            border: none;
+            border-bottom: 4px solid transparent;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .tab-button:hover {
+            color: var(--accent);
+        }
+
+        .tab-button.active {
+            color: var(--navy);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Progress Steps */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .progress-steps:before {
+            content: "";
+            position: absolute;
+            top: 28px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #e9ecef;
+            z-index: -1;
+        }
+
+        .step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .step-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 4px solid #e9ecef;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.4em;
+            color: var(--text-light);
+            font-family: 'Fraunces', serif;
+            transition: all 0.3s ease;
+        }
+
+        .step.completed .step-circle {
+            background: var(--green);
+            border-color: var(--green);
+            color: var(--white);
+        }
+
+        .step.current .step-circle {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--white);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(244, 162, 97, 0.7);
+            }
+            50% {
+                transform: scale(1.08);
+                box-shadow: 0 0 0 10px rgba(244, 162, 97, 0);
+            }
+        }
+
+        .step-label {
+            font-size: 0.95em;
+            color: var(--text);
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        /* Action Cards */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, var(--navy), var(--blue));
+            color: var(--white);
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(244,162,97,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .action-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+        }
+
+        .action-card h4 {
+            color: var(--white);
+            margin-top: 0;
+            position: relative;
+        }
+
+        .action-card ul {
+            position: relative;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            background: var(--white);
+            border-radius: 16px;
+            margin-top: 30px;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .footer p {
+            margin: 8px 0;
+            color: var(--text-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .content-card {
+                padding: 30px 25px;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav li {
+                width: 100%;
+            }
+
+            .progress-steps {
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .progress-steps:before {
+                width: 4px;
+                height: 100%;
+                left: 26px;
+                top: 0;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            h3 {
+                font-size: 1.4em;
+            }
+        }
+
+        /* Utilities */
+        .emoji {
+            font-size: 1.4em;
+            margin-right: 10px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, var(--accent) 0%, var(--accent) 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 35%;
+            background-position: 0 88%;
+            padding: 0 6px;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .badge.primary {
+            background: var(--navy);
+            color: var(--white);
+        }
+
+        .badge.success {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        .badge.warning {
+            background: var(--accent);
+            color: var(--white);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <ul>
+                <li><button onclick="showSection('home')" class="active">🏠 Profil Hugo</button></li>
+                <li><button onclick="showSection('dad')">👨 Catatan Papa</button></li>
+                <li><button onclick="showSection('mom')">👩 Catatan Mama</button></li>
+                <li><button onclick="showSection('weekend')">👨👩👦 Weekend Kita</button></li>
+                <li><button onclick="showSection('screen')">📺 Screen Time</button></li>
+                <li><button onclick="showSection('milestone')">📊 Tracking</button></li>
+                <li><button onclick="showSection('mindset')">💭 Reminder</button></li>
+                <li><button onclick="showSection('action')">🎯 30 Hari</button></li>
+            </ul>
+        </nav>
+
+        <!-- HOME: Profil Hugo -->
+        <div id="home" class="content-card active">
+            <div class="hero">
+                <h1>Hugo's Journey</h1>
+                <p class="subtitle">2,5 tahun | Laki-laki kita</p>
+                <p><strong>Active-Intentional Explorer</strong></p>
+            </div>
+
+            <h2>Siapa Hugo?</h2>
+            <p>Hugo itu anak yang bergerak cepat, punya tujuan jelas, dan komunikatif secara efisien. Dia gak banyak bicara tanpa alasan, tapi kalau butuh sesuatu, jelas banget dia sampaikan. Kekuatan dia ada di inisiatif yang tinggi, berani eksplorasi, dan komunikasi yang bermakna. Bahasa verbalnya lagi dalam fase penguatan - ini normal dan on track.</p>
+
+            <div class="info-box success">
+                <h4>📌 Yang Perlu Kita Ingat</h4>
+                <p><strong>Hugo TIDAK tertinggal!</strong> Dia cuma berkembang dengan ritmenya sendiri. Dengan cara kita mendampinginya yang tepat, potensi dia ke depan sangat besar.</p>
+            </div>
+
+            <h2>Profil Lengkap Hugo</h2>
+            
+            <div class="profile-grid">
+                <div class="profile-card">
+                    <h4>📍 Data Dasar</h4>
+                    <ul>
+                        <li><strong>Usia:</strong> ± 2,5 tahun</li>
+                        <li><strong>Aktivitas:</strong> Homkids (baby gym, dance, sport, swim)</li>
+                        <li><strong>Bahasa sehari-hari:</strong> Indonesia</li>
+                        <li><strong>Bahasa kedua:</strong> Inggris (dari screen & rutinitas kita)</li>
+                    </ul>
+                </div>
+
+                <div class="profile-card">
+                    <h4>🎓 Gaya Belajar Hugo</h4>
+                    <ul>
+                        <li><strong>Kinesthetic learner</strong> - belajar lewat gerak</li>
+                        <li>Fokusnya ke <strong>aksi</strong>, bukan cerita panjang</li>
+                        <li>Lebih suka <strong>langsung praktek</strong> daripada dijelasin</li>
+                        <li>Aktif secara fisik dan mental</li>
+                    </ul>
+                </div>
+
+                <div class="profile-card">
+                    <h4>💬 Cara Hugo Berkomunikasi</h4>
+                    <ul>
+                        <li><strong>Intentional</strong> - setiap kata ada tujuannya</li>
+                        <li>Gabungin kata + gerakan + arah badan</li>
+                        <li>Efisien: kata seminim mungkin, hasil semaksimal mungkin</li>
+                        <li>Contoh: "mamam" → mau makan</li>
+                        <li>Contoh: "pizza mamam" → request yang spesifik</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3><span class="emoji">💪</span>Kekuatan Hugo</h3>
+            <div class="profile-grid">
+                <div class="profile-card strength">
+                    <h4>Inisiatif Tinggi</h4>
+                    <p>Hugo gak nunggu kita suruh. Dia berani coba hal baru sendiri dan sering ngajak kita ikutan eksplorasinya.</p>
+                </div>
+                <div class="profile-card strength">
+                    <h4>Komunikasi Bermakna</h4>
+                    <p>Setiap kata yang Hugo ucapin punya tujuan jelas. Efisien banget dalam nyampein apa yang dia butuhin.</p>
+                </div>
+                <div class="profile-card strength">
+                    <h4>Berani Eksplorasi</h4>
+                    <p>Hugo aktif banget explore lingkungan sekitar. Gak takut coba-coba, sangat responsif sama hal baru.</p>
+                </div>
+                <div class="profile-card strength">
+                    <h4>Pemahaman Bahasa Bagus</h4>
+                    <p>Hugo udah kenal angka 1-10 dalam Bahasa Inggris, objek-objek umum, dan paham instruksi sederhana yang kita kasih.</p>
+                </div>
+                <div class="profile-card strength">
+                    <h4>Attachment Aman</h4>
+                    <p>Hugo punya bonding yang kuat sama kita. Dia pakai kita sebagai "base" yang aman buat eksplorasinya.</p>
+                </div>
+                <div class="profile-card strength">
+                    <h4>Fondasi Bilingual</h4>
+                    <p>Hugo udah punya awareness untuk dua bahasa (Indonesia & Inggris). Ini modal bagus ke depannya.</p>
+                </div>
+            </div>
+
+            <h3><span class="emoji">🌱</span>Yang Lagi Berkembang <span class="badge warning">Bukan Kekurangan!</span></h3>
+            <div class="profile-grid">
+                <div class="profile-card developing">
+                    <h4>Kalimat Dua Kata</h4>
+                    <p>Hugo lagi berkembang dari kata tunggal ke dua kata secara konsisten. Ini lagi on progress.</p>
+                </div>
+                <div class="profile-card developing">
+                    <h4>Pelafalan</h4>
+                    <p>Pelafalannya lagi dalam proses jadi lebih jelas. Untuk usianya, ini masih sangat wajar.</p>
+                </div>
+                <div class="profile-card developing">
+                    <h4>Jawab Pertanyaan Terbuka</h4>
+                    <p>Kemampuan jawab "apa ini?" atau pertanyaan terbuka lainnya lagi dibangun step by step.</p>
+                </div>
+                <div class="profile-card developing">
+                    <h4>Narasi Sederhana</h4>
+                    <p>Kemampuan cerita sederhana bakal berkembang pesat pas mendekati 3 tahun nanti.</p>
+                </div>
+            </div>
+
+            <div class="info-box note">
+                <h4>⏰ Timeline Development</h4>
+                <p>Area-area yang lagi berkembang ini biasanya tumbuh pesat di rentang usia <strong>2,8 – 3,2 tahun</strong> untuk profil anak kayak Hugo. Gap antara pemahaman dan ekspresi itu <strong>sangat normal</strong>, apalagi untuk anak aktif dengan exposure bilingual sejak dini.</p>
+            </div>
+
+            <h3><span class="emoji">🎯</span>Proyeksi Realistis Ke Depan</h3>
+            <div class="info-box success">
+                <p>Dengan cara kita dampingin yang responsif dan lingkungan yang aman:</p>
+                <ul>
+                    <li><strong>Bahasa ekspresif</strong> Hugo bakal meningkat signifikan pas mendekati 3 tahun</li>
+                    <li>Hugo bakal adaptasi dengan baik di lingkungan <strong>preschool berbasis bermain</strong></li>
+                    <li><strong>Confidence sosial</strong> jadi modal utama dia, bahasa bakal nyusul dengan cepat</li>
+                    <li>Potensi adaptasi dan pembelajaran jangka panjangnya <strong>sangat baik</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- DAD SECTION -->
+        <div id="dad" class="content-card">
+            <div class="hero">
+                <h1>Catatan untuk Papa</h1>
+                <p>Senin-Jumat (06:00 - 20:00)</p>
+            </div>
+
+            <div class="info-box">
+                <h4>💡 Prinsip yang Perlu Papa Pegang</h4>
+                <p><strong>Kualitas > Kuantitas</strong>. 30 menit fully present lebih berharga dari 3 jam sambil main HP. Fokus ke CONNECTION, bukan perfection.</p>
+            </div>
+
+            <h2>A. Quality Time Pagi (15-30 menit)</h2>
+            
+            <h3>1. Morning Ritual yang Konsisten</h3>
+            <ul>
+                <li><strong>Bangun 15-30 menit lebih awal</strong> khusus buat waktu sama Hugo</li>
+                <li><strong>Rutin sederhana:</strong> Peluk, sapa dengan semangat, tanya mimpi Hugo (walaupun belum bisa cerita panjang)</li>
+                <li><strong>Sarapan bareng</strong> kalau memungkinkan - ini bonding time yang penting</li>
+            </ul>
+
+            <h3>2. Komunikasi yang Pas untuk Hugo</h3>
+            <ul>
+                <li>Pakai <strong>kalimat pendek dan jelas:</strong> "Papa kerja ya. Nanti pulang main!"</li>
+                <li><strong>Kasih pilihan:</strong> "Mau peluk atau tos?" (melatih dia ambil keputusan)</li>
+                <li>Gak perlu banyak kata - <strong>kontak mata, pelukan, senyuman</strong> udah cukup bermakna buat Hugo</li>
+            </ul>
+
+            <h3>3. Ritual Bye-bye yang Positif</h3>
+            <ul>
+                <li><strong>Bikin ritual khusus:</strong> Salaman khusus, lagu pendek, atau ucapan bye-bye yang khas kita</li>
+                <li><strong>Jangan pergi diam-diam</strong> - Hugo perlu closure buat merasa aman</li>
+                <li><strong>Konsistensi ritual</strong> bikin Hugo merasa aman dan percaya Papa bakal pulang</li>
+            </ul>
+
+            <h2>B. Quality Time Malam (Setelah 20:00)</h2>
+            <p>Walaupun Hugo mungkin udah siap tidur, 30-60 menit ini sangat berharga:</p>
+
+            <div class="action-grid">
+                <div class="action-card">
+                    <h4>🏃 Main Fisik (15-20 menit)</h4>
+                    <ul>
+                        <li>Sesuai gaya belajar Hugo: kejar-kejaran ringan, lempar bola, main konstruksi</li>
+                        <li>Biarkan Hugo yang lead permainan - Papa ikutin aja</li>
+                        <li>Gak perlu mainan mahal - kardus, bantal, selimut bisa jadi dunia petualangan</li>
+                    </ul>
+                </div>
+
+                <div class="action-card">
+                    <h4>🛁 Bath Time (15-20 menit)</h4>
+                    <ul>
+                        <li>Kalau bisa, Papa yang mandiin (gantian sama Mama)</li>
+                        <li>Main air bareng: gelas tuang-tuang, busa sabun, mainan air</li>
+                        <li>Sebutin bagian tubuh (Indonesia & Inggris)</li>
+                        <li>Nyanyi lagu sederhana - Hugo bakal inget dan ikut nyanyi</li>
+                    </ul>
+                </div>
+
+                <div class="action-card">
+                    <h4>📚 Bedtime (20-30 menit)</h4>
+                    <ul>
+                        <li>Baca buku bergambar - tunjuk gambar, sebutin nama objek</li>
+                        <li>Gak perlu baca persis teksnya - ceritain dengan bahasa sederhana aja</li>
+                        <li>Tanya: "Ini apa?" sambil tunjuk gambar (melatih ekspresif Hugo)</li>
+                        <li>Tutup dengan doa/lagu tidur yang sama tiap malam</li>
+                        <li>Konsistensi bikin Hugo tenang dan siap tidur</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>C. Komunikasi dengan Mama (Kunci Sukses!)</h2>
+            <div class="info-box warning">
+                <p><strong>Ini penting banget!</strong> Parenting itu team sport:</p>
+                <ul>
+                    <li><strong>Update harian via chat:</strong> Tanya perkembangan Hugo hari ini</li>
+                    <li><strong>Minta video singkat</strong> aktivitas Hugo (5-10 detik cukup)</li>
+                    <li><strong>Diskusi mingguan:</strong> Evaluasi perkembangan, rencana weekend</li>
+                    <li><strong>Bagi tugas jelas:</strong> Siapa handle apa di weekend</li>
+                    <li><strong>Apresiasi Mama</strong> yang full time - ini kerjaan 24/7 yang berat!</li>
+                </ul>
+            </div>
+
+            <h2>D. Reminder untuk Papa</h2>
+            <div class="profile-grid">
+                <div class="profile-card strength">
+                    <h4>Quality > Quantity</h4>
+                    <p>30 menit fully present jauh lebih berharga dari 3 jam sambil main HP. Hugo gak butuh Papa yang sempurna, tapi Papa yang hadir.</p>
+                </div>
+                <div class="profile-card strength">
+                    <h4>Peran Papa Penting</h4>
+                    <p>Papa bawa energi yang beda dari Mama. Main fisik sama Papa itu penting banget buat balance Hugo.</p>
+                </div>
+                <div class="profile-card strength">
+                    <h4>Support Mama = Support Hugo</h4>
+                    <p>Mama yang burnout gak bisa rawat Hugo dengan baik. Apresiasi dan komunikasi itu kunci.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOM SECTION -->
+        <div id="mom" class="content-card">
+            <div class="hero">
+                <h1>Catatan untuk Mama</h1>
+                <p>Primary Caregiver - Full Time di Rumah</p>
+            </div>
+
+            <div class="info-box success">
+                <h4>💖 Pesan untuk Mama</h4>
+                <p>Mama lagi lakuin pekerjaan paling berat di dunia. Full-time parenting itu 24/7 tanpa libur. <strong>Wajar kalau capek, frustrasi, atau kewalahan - ini BUKAN tanda gagal, ini tanda NORMAL.</strong></p>
+            </div>
+
+            <h2>A. Struktur Hari (Fleksibel tapi Konsisten)</h2>
+            <p>Yang penting konsistensi POLA-nya, bukan ketepatan waktunya:</p>
+
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Waktu</th>
+                        <th>Aktivitas</th>
+                        <th>Tujuan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>07:00-08:00</td>
+                        <td>Bangun, sarapan, siap-siap</td>
+                        <td>Rutinitas, kemandirian</td>
+                    </tr>
+                    <tr>
+                        <td>08:00-10:00</td>
+                        <td>Aktivitas fisik (baby gym/dance) atau main bebas</td>
+                        <td>Gross motor, eksplorasi</td>
+                    </tr>
+                    <tr>
+                        <td>10:00-10:30</td>
+                        <td>Snack + screen time edukatif</td>
+                        <td>Bahasa Inggris, konsep angka</td>
+                    </tr>
+                    <tr>
+                        <td>10:30-12:00</td>
+                        <td>Main terstruktur</td>
+                        <td>Fine motor, problem solving</td>
+                    </tr>
+                    <tr>
+                        <td>12:00-13:00</td>
+                        <td>Makan siang + cuci tangan</td>
+                        <td>Life skills, kemandirian</td>
+                    </tr>
+                    <tr>
+                        <td>13:00-15:00</td>
+                        <td>Tidur siang</td>
+                        <td>Istirahat, pertumbuhan</td>
+                    </tr>
+                    <tr>
+                        <td>15:00-16:30</td>
+                        <td>Main bebas/outdoor</td>
+                        <td>Eksplorasi, sosial</td>
+                    </tr>
+                    <tr>
+                        <td>16:30-17:00</td>
+                        <td>Snack + screen time</td>
+                        <td>Relaksasi, bahasa</td>
+                    </tr>
+                    <tr>
+                        <td>17:00-19:00</td>
+                        <td>Main sama Mama, persiapan malam</td>
+                        <td>Quality time, bonding</td>
+                    </tr>
+                    <tr>
+                        <td>19:00-20:00</td>
+                        <td>Makan malam, siap-siap tidur</td>
+                        <td>Rutinitas</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>B. Strategi Stimulasi Bahasa Hugo</h2>
+            <p>Hugo komunikatif secara efisien. Strategi terbaiknya: memperkaya tanpa maksa:</p>
+
+            <h3>1. Modeling Kalimat Pendek (Expand, Don't Correct)</h3>
+            <div class="info-box">
+                <ul>
+                    <li>Hugo: "mamam" → Mama: "Ohh, mau makan? Ayo makan!"</li>
+                    <li>Hugo: "mimi" → Mama: "Mau minum susu? Ini susunya"</li>
+                    <li><strong>Jangan suruh ulang ucapan yang salah</strong> - cukup modelkan yang bener</li>
+                    <li>Prinsip: <strong>TUNJUKKAN, bukan PAKSA</strong></li>
+                </ul>
+            </div>
+
+            <h3>2. Main Sambil Ngomong (Talk-Through)</h3>
+            <ul>
+                <li><strong>Narasi aktivitas:</strong> "Sekarang kita cuci tangan pakai sabun ya. Gosok-gosok!"</li>
+                <li><strong>Main masak-masakan:</strong> "Masak apa nih? Pizza? Wah enak!"</li>
+                <li><strong>Main mobil-mobilan:</strong> "Mobil jalan brummm! Belok kanan!"</li>
+                <li>Bahasa itu muncul dari konteks yang bermakna buat Hugo</li>
+            </ul>
+
+            <h3>3. Kasih Pilihan Verbal</h3>
+            <ul>
+                <li>"Mau apel atau pisang?"</li>
+                <li>"Pakai baju merah atau biru?"</li>
+                <li>"Main bola atau mobil-mobilan?"</li>
+                <li>Ini melatih Hugo pakai kata dengan tujuan yang jelas</li>
+            </ul>
+
+            <h3>4. Baca Buku Interaktif</h3>
+            <ul>
+                <li>Pilih buku bergambar sederhana dengan teks dikit</li>
+                <li>Gak perlu baca persis - tunjuk gambar, "Ini apa?"</li>
+                <li>Biarkan Hugo yang bolak-balik halaman</li>
+                <li>Ulang buku favorit - repetisi bantu pembelajaran bahasa</li>
+            </ul>
+
+            <h2>C. Aktivitas Harian Sesuai Gaya Belajar Hugo</h2>
+            <p>Hugo belajar paling baik lewat GERAK dan PENGALAMAN LANGSUNG:</p>
+
+            <div class="action-grid">
+                <div class="action-card">
+                    <h4>🏃 Gross Motor</h4>
+                    <ul>
+                        <li>Baby gym/dance class (PERTAHANKAN!)</li>
+                        <li>Main bola: lempar, tangkap, tendang</li>
+                        <li>Lompat di trampolin kecil atau kasur</li>
+                        <li>Naik turun tangga sambil hitung</li>
+                        <li>Dance party di rumah</li>
+                    </ul>
+                </div>
+
+                <div class="action-card">
+                    <h4>✋ Fine Motor</h4>
+                    <ul>
+                        <li>Main playdough/lilin</li>
+                        <li>Main balok: susun tinggi, buat jalan</li>
+                        <li>Corat-coret pakai crayon besar</li>
+                        <li>Puzzle sederhana (4-8 pieces)</li>
+                        <li>Main air: tuang dari gelas ke gelas</li>
+                        <li>Buka tutup botol, kotak</li>
+                    </ul>
+                </div>
+
+                <div class="action-card">
+                    <h4>🎨 Sensory Play</h4>
+                    <ul>
+                        <li>Main pasir/beras kering di wadah</li>
+                        <li>Main air sama spons, gelas, corong</li>
+                        <li>Tekstur berbeda: halus, kasar, lembut</li>
+                        <li>Aktivitas masak: aduk adonan, cuci sayur</li>
+                    </ul>
+                </div>
+
+                <div class="action-card">
+                    <h4>🌳 Outdoor</h4>
+                    <ul>
+                        <li>Jalan sore: lihat pohon, mobil, binatang</li>
+                        <li>Main di taman: ayunan, perosotan</li>
+                        <li>Ambil daun, batu - eksplorasi</li>
+                        <li>Ini memperkaya kosakata secara natural</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>D. Handle Tantangan Sehari-hari</h2>
+
+            <h3>Saat Hugo Frustrasi Karena Belum Bisa Bicara Jelas</h3>
+            <div class="info-box warning">
+                <ul>
+                    <li>Tetap <strong>TENANG</strong> - frustrasi Mama bakal nular ke Hugo</li>
+                    <li><strong>Validasi:</strong> "Mama tahu Hugo mau bilang sesuatu. Pelan-pelan ya."</li>
+                    <li><strong>Tawarkan bantuan:</strong> "Tunjuk dong mau apa?" atau "Ajak Mama lihat"</li>
+                    <li><strong>JANGAN paksa Hugo ulang kata</strong> berkali-kali - ini bisa bikin kontraproduktif</li>
+                </ul>
+            </div>
+
+            <h3>Saat Hugo Gak Mau Fokus "Belajar"</h3>
+            <div class="info-box">
+                <ul>
+                    <li>Ingat: rentang fokus Hugo di usia ini: <strong>5-10 menit per aktivitas</strong></li>
+                    <li><strong>JANGAN paksa duduk belajar</strong> - ini bukan gaya belajarnya</li>
+                    <li>Belajar lewat <strong>BERMAIN</strong> - ini cara paling efektif untuk Hugo</li>
+                    <li>Kalau Hugo berpindah aktivitas, itu <strong>NORMAL</strong> - bukan masalah</li>
+                </ul>
+            </div>
+
+            <h3>Saat Hugo Keaktifan Tinggi</h3>
+            <div class="info-box success">
+                <ul>
+                    <li>Ini <strong>BUKAN masalah - ini KEKUATAN</strong> Hugo (kinesthetic learner)</li>
+                    <li>Pastikan ada outlet energi: baby gym, dance, playground</li>
+                    <li>Hindari screen time terlalu lama - bikin Hugo lebih hyperaktif</li>
+                    <li>Kasih aktivitas fisik SEBELUM aktivitas yang butuh fokus</li>
+                </ul>
+            </div>
+
+            <h3>Saat Bandingin Hugo sama Anak Lain</h3>
+            <div class="info-box warning">
+                <ul>
+                    <li><strong>STOP!</strong> Ini racun terbesar buat mental Mama dan Hugo</li>
+                    <li>Tiap anak punya ritme sendiri - profil Hugo jelas nunjukin dia gak tertinggal</li>
+                    <li>Fokus ke <strong>PROGRESS Hugo sendiri</strong>, bukan kompetisi</li>
+                    <li>Percaya sama proses - bahasa bakal meningkat pesat pas mendekati 3 tahun</li>
+                </ul>
+            </div>
+
+            <h2>E. Self-Care Mama (PENTING!)</h2>
+            <div class="info-box note">
+                <h4>🌸 Mama yang sehat = Hugo yang sehat</h4>
+                <ul>
+                    <li>Manfaatin tidur siang Hugo buat <strong>ISTIRAHAT</strong> (bukan kerjain rumah)</li>
+                    <li>Minta bantuan: asisten, keluarga, atau daycare part-time kalau perlu</li>
+                    <li><strong>Me-time minimal 30 menit per hari:</strong> baca, skincare, atau apapun yang bikin tenang</li>
+                    <li>Jangan isolasi diri - tetap ketemu teman atau komunitas ibu</li>
+                    <li>Jujur sama Papa kalau butuh bantuan atau break</li>
+                    <li><strong>Mama yang burnout gak bisa rawat Hugo dengan baik</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- WEEKEND SECTION -->
+        <div id="weekend" class="content-card">
+            <div class="hero">
+                <h1>Weekend Kita Bertiga</h1>
+                <p>Waktu Emas untuk Bonding Keluarga</p>
+            </div>
+
+            <h2>A. Pembagian Weekend</h2>
+
+            <div class="action-grid">
+                <div class="action-card">
+                    <h4>Sabtu Pagi: Papa Time</h4>
+                    <ul>
+                        <li><strong>Mama istirahat/me-time</strong> - ini hak Mama!</li>
+                        <li>Papa ajak Hugo outdoor: taman, playground, baby gym</li>
+                        <li>Atau di rumah: mobil-mobilan, bongkar pasang, dance party</li>
+                        <li>Gak perlu perfect - yang penting quality time</li>
+                    </ul>
+                </div>
+
+                <div class="action-card">
+                    <h4>Sabtu Sore: Family Time</h4>
+                    <ul>
+                        <li>Kegiatan bareng: jalan-jalan, makan di luar</li>
+                        <li>Atau main di rumah bareng</li>
+                        <li><strong>Fokus:</strong> bonding sebagai keluarga</li>
+                        <li>Foto/video buat kenangan</li>
+                    </ul>
+                </div>
+
+                <div class="action-card">
+                    <h4>Minggu Pagi: Santai Edukatif</h4>
+                    <ul>
+                        <li>Baca buku bareng</li>
+                        <li>Main puzzle atau balok</li>
+                        <li>Masak bareng (mixing, pouring)</li>
+                        <li>Gak perlu formal - yang penting interaksi</li>
+                    </ul>
+                </div>
+
+                <div class="action-card">
+                    <h4>Minggu Sore: Evaluasi</h4>
+                    <ul>
+                        <li>Papa & Mama diskusi: evaluasi minggu lalu</li>
+                        <li>Rencana minggu depan</li>
+                        <li>Quality time terakhir sebelum Senin</li>
+                        <li>Relaxing family time</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>B. Ide Aktivitas Weekend</h2>
+            <div class="profile-grid">
+                <div class="profile-card">
+                    <h4>🌳 Outdoor</h4>
+                    <ul>
+                        <li>Taman/playground - eksplorasi</li>
+                        <li>Swimming (kelas swim)</li>
+                        <li>Main air di halaman</li>
+                        <li>Jalan ke pasar/supermarket</li>
+                    </ul>
+                </div>
+                <div class="profile-card">
+                    <h4>📚 Indoor</h4>
+                    <ul>
+                        <li>Ke toko buku</li>
+                        <li>Craft: gambar, tempel stiker, playdough</li>
+                        <li>Puzzle dan balok</li>
+                        <li>Baca buku bareng</li>
+                    </ul>
+                </div>
+                <div class="profile-card">
+                    <h4>👶 Social</h4>
+                    <ul>
+                        <li>Playdate sama anak sebaya</li>
+                        <li>Baby gym/dance class</li>
+                        <li>Komunitas orangtua-anak</li>
+                        <li>Family gathering</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN TIME SECTION -->
+        <div id="screen" class="content-card">
+            <div class="hero">
+                <h1>Screen Time Hugo</h1>
+                <p>Maksimalkan Rachel & Sarah and Duck</p>
+            </div>
+
+            <h2>A. Aturan Screen Time</h2>
+            <div class="info-box warning">
+                <h4>⚠️ Yang Perlu Kita Pegang</h4>
+                <ul>
+                    <li><strong>Total:</strong> maksimal 60 menit per hari</li>
+                    <li><strong>Bagi 2 sesi:</strong> 30 menit pagi (habis aktivitas fisik), 30 menit sore</li>
+                    <li><strong>SELALU dampingi</strong> - nonton BARENG, bukan serahin gadget</li>
+                    <li><strong>Jarak aman:</strong> minimal 1 meter dari layar</li>
+                    <li><strong>Hindari 1 jam sebelum tidur</strong> - ganggu kualitas tidur Hugo</li>
+                </ul>
+            </div>
+
+            <h2>B. Maksimalkan Baby Learning Rachel</h2>
+            <div class="action-grid">
+                <div class="action-card">
+                    <h4>✅ Bagusnya</h4>
+                    <ul>
+                        <li>Fokus: angka, warna, bentuk, binatang, kendaraan</li>
+                        <li>Repetisi konsisten - bagus buat Hugo</li>
+                        <li>Bahasa Inggris sederhana dan jelas</li>
+                    </ul>
+                </div>
+                <div class="action-card">
+                    <h4>💡 Cara Maksimalkan</h4>
+                    <ul>
+                        <li>Habis nonton: "Tadi belajar apa? Ada angka berapa?"</li>
+                        <li>Reinforce di real life: "Ini warna apa? Kayak di Rachel!"</li>
+                        <li>Ikutin gerakan bareng: tepuk tangan, lompat</li>
+                        <li>Hitung bareng pas di video</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>C. Maksimalkan Sarah and Duck</h2>
+            <div class="action-grid">
+                <div class="action-card">
+                    <h4>✅ Bagusnya</h4>
+                    <ul>
+                        <li>Cerita sederhana dengan nilai sosial</li>
+                        <li>Interaksi antar karakter - ajarin empati</li>
+                        <li>Bahasa Inggris percakapan sehari-hari</li>
+                        <li>Animasi lembut, gak overwhelming</li>
+                    </ul>
+                </div>
+                <div class="action-card">
+                    <h4>💡 Cara Maksimalkan</h4>
+                    <ul>
+                        <li>Diskusi: "Sarah ngapain? Duck nya mau kemana?"</li>
+                        <li>Roleplay: pura-pura jadi Sarah atau Duck</li>
+                        <li>Tanya perasaan: "Sarah senang atau sedih?"</li>
+                        <li>Relate: "Kayak Sarah suka main di taman, Hugo juga!"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>D. Konten Lain yang Bisa Dicoba</h2>
+            <ul>
+                <li><strong>Cocomelon</strong> (Bahasa Inggris) - lagu anak dengan animasi</li>
+                <li><strong>Super Simple Songs</strong> - lagu pendek, mudah diingat</li>
+                <li><strong>Bluey</strong> - cerita keluarga hangat (untuk nanti pas mendekati 3 tahun)</li>
+                <li><strong>Number Blocks</strong> - matematika dasar dengan visual menarik</li>
+            </ul>
+
+            <h2>E. Yang Harus Kita Hindari</h2>
+            <div class="info-box warning">
+                <h4>⛔ HINDARI:</h4>
+                <ul>
+                    <li>Visual terlalu cepat berubah (overstimulasi)</li>
+                    <li>Kekerasan atau konten nakutin</li>
+                    <li>Iklan - pakai platform tanpa iklan atau YouTube Premium</li>
+                    <li>Autoplay - kita harus kontrol apa yang Hugo tonton</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- MILESTONE SECTION -->
+        <div id="milestone" class="content-card">
+            <div class="hero">
+                <h1>Tracking Perkembangan Hugo</h1>
+                <p>Kapan Perlu Bantuan Profesional</p>
+            </div>
+
+            <h2>A. Milestone Hugo Usia 2,5-3 Tahun</h2>
+
+            <div class="profile-grid">
+                <div class="profile-card">
+                    <h4>💬 Bahasa</h4>
+                    <ul>
+                        <li>Kalimat 2-3 kata konsisten</li>
+                        <li>Kosakata 200-500 kata</li>
+                        <li>Ikutin instruksi 2 langkah</li>
+                        <li>Jawab pertanyaan "apa" dan "siapa"</li>
+                        <li>Mulai cerita sangat sederhana</li>
+                    </ul>
+                </div>
+
+                <div class="profile-card">
+                    <h4>🏃 Motorik</h4>
+                    <ul>
+                        <li>Lari stabil</li>
+                        <li>Naik turun tangga gantian kaki</li>
+                        <li>Lempar tangkap bola besar</li>
+                        <li>Gambar lingkaran</li>
+                        <li>Makan sendiri pakai sendok/garpu</li>
+                    </ul>
+                </div>
+
+                <div class="profile-card">
+                    <h4>❤️ Sosial-Emosi</h4>
+                    <ul>
+                        <li>Main paralel sama anak lain</li>
+                        <li>Mulai belajar berbagi</li>
+                        <li>Tunjukin empati sederhana</li>
+                        <li>Tantrum berkurang, bisa ditenangkan</li>
+                    </ul>
+                </div>
+
+                <div class="profile-card">
+                    <h4>🧠 Kognitif</h4>
+                    <ul>
+                        <li>Kenal 3-4 warna</li>
+                        <li>Hitung 1-5</li>
+                        <li>Puzzle 4-8 pieces</li>
+                        <li>Main pretend play sederhana</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>B. Red Flags - Kapan Perlu Konsultasi</h2>
+            <div class="info-box warning">
+                <h4>⚠️ Konsultasi ke dokter/terapis kalau:</h4>
+                <ul>
+                    <li>Usia 3 tahun Hugo TIDAK bicara sama sekali atau cuma beberapa kata</li>
+                    <li>Kehilangan kemampuan bahasa yang udah dikuasai (regression)</li>
+                    <li>Gak ada kontak mata sama sekali</li>
+                    <li>Gak respon nama waktu dipanggil (setelah cek pendengaran normal)</li>
+                    <li>Gak tunjukin minat main sama orang lain sama sekali</li>
+                    <li>Tantrum ekstrem yang gak bisa ditenangkan sama sekali</li>
+                    <li>Gerakan repetitif berlebihan (flapping, spinning) tanpa henti</li>
+                    <li>Gak ada komunikasi non-verbal (gak nunjuk, gak gesture)</li>
+                </ul>
+            </div>
+
+            <div class="info-box success">
+                <h4>✅ Status Hugo Saat Ini</h4>
+                <p><strong>Berdasarkan profil Hugo, TIDAK ADA red flags.</strong> Hugo nunjukin perkembangan yang SEHAT. Tapi tetep kita monitor tiap 3 bulan ya.</p>
+            </div>
+
+            <h2>C. Evaluasi Tiap 3 Bulan</h2>
+
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Area</th>
+                        <th>Yang Kita Perhatikan</th>
+                        <th>Progress</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bahasa</td>
+                        <td>Apakah kosakata Hugo bertambah?</td>
+                        <td>☐ Ya  ☐ Tidak  ☐ Stagnan</td>
+                    </tr>
+                    <tr>
+                        <td>Bahasa</td>
+                        <td>Apakah kalimat Hugo lebih panjang?</td>
+                        <td>☐ Ya  ☐ Tidak  ☐ Stagnan</td>
+                    </tr>
+                    <tr>
+                        <td>Motorik</td>
+                        <td>Apakah gerakan lebih terkoordinasi?</td>
+                        <td>☐ Ya  ☐ Tidak  ☐ Stagnan</td>
+                    </tr>
+                    <tr>
+                        <td>Sosial</td>
+                        <td>Apakah lebih tertarik main sama anak lain?</td>
+                        <td>☐ Ya  ☐ Tidak  ☐ Stagnan</td>
+                    </tr>
+                    <tr>
+                        <td>Emosi</td>
+                        <td>Apakah tantrum Hugo berkurang?</td>
+                        <td>☐ Ya  ☐ Tidak  ☐ Stagnan</td>
+                    </tr>
+                    <tr>
+                        <td>Kemandirian</td>
+                        <td>Apakah Hugo bisa lebih banyak hal sendiri?</td>
+                        <td>☐ Ya  ☐ Tidak  ☐ Stagnan</td>
+                    </tr>
+                    <tr>
+                        <td>Overall</td>
+                        <td>Apakah Hugo terlihat bahagia dan enjoy?</td>
+                        <td>☐ Ya  ☐ Tidak  ☐ Kadang</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box note">
+                <p><em>Kalau ada 3 atau lebih jawaban "Tidak" atau "Stagnan", pertimbangkan konsultasi profesional.</em></p>
+            </div>
+        </div>
+
+        <!-- MINDSET SECTION -->
+        <div id="mindset" class="content-card">
+            <div class="hero">
+                <h1>Reminder untuk Kita</h1>
+                <p>Mindset yang Perlu Kita Pegang</p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-button active" onclick="showTab('mindset-dad')">Untuk Papa</button>
+                <button class="tab-button" onclick="showTab('mindset-mom')">Untuk Mama</button>
+                <button class="tab-button" onclick="showTab('mindset-both')">Untuk Kita Berdua</button>
+            </div>
+
+            <div id="mindset-dad" class="tab-content active">
+                <h2>Reminder untuk Papa</h2>
+
+                <div class="profile-grid">
+                    <div class="profile-card strength">
+                        <h4>Quality > Quantity</h4>
+                        <p>30 menit fully present jauh lebih berharga dari 3 jam sambil main HP. Hugo gak butuh Papa yang sempurna, tapi Papa yang hadir.</p>
+                    </div>
+
+                    <div class="profile-card strength">
+                        <h4>Peran Papa Penting</h4>
+                        <p>Papa bawa energi yang beda dari Mama - ini penting buat balance Hugo. Main fisik sama Papa itu kebutuhan Hugo.</p>
+                    </div>
+
+                    <div class="profile-card strength">
+                        <h4>Support Mama = Support Hugo</h4>
+                        <p>Mama yang burnout gak bisa rawat Hugo dengan baik. Apresiasi dan komunikasi itu kunci keluarga kita.</p>
+                    </div>
+
+                    <div class="profile-card strength">
+                        <h4>Jangan Baper Bandingin</h4>
+                        <p>Tiap keluarga punya dinamika beda. Papa yang kerja full time BUKAN Papa yang kurang baik. Yang penting: Hugo merasa dicintai dan aman.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mindset-mom" class="tab-content">
+                <h2>Reminder untuk Mama</h2>
+
+                <div class="profile-grid">
+                    <div class="profile-card strength">
+                        <h4>Ini Kerjaan Paling Berat</h4>
+                        <p>Full-time parenting itu 24/7 tanpa libur. Wajar kalau capek, frustrasi, atau kewalahan. Ini BUKAN tanda gagal - ini tanda NORMAL.</p>
+                    </div>
+
+                    <div class="profile-card strength">
+                        <h4>Hugo Gak Butuh Mama Sempurna</h4>
+                        <p>Hugo butuh Mama yang responsif, bukan sempurna. Boleh capek, boleh istirahat, boleh minta bantuan. Self-care itu INVESTASI buat Hugo.</p>
+                    </div>
+
+                    <div class="profile-card strength">
+                        <h4>Tiap Anak Beda</h4>
+                        <p>Tetangga punya anak udah lancar ngomong? Good for them. Fokus ke PROGRESS Hugo sendiri. Profil jelas nunjukin Hugo gak tertinggal.</p>
+                    </div>
+
+                    <div class="profile-card strength">
+                        <h4>Percaya Sama Proses</h4>
+                        <p>Bahasa Hugo bakal meledak pas mendekati 3 tahun - ini pola normal. Anak aktif biasanya bahasa lebih lambat, tapi catch up cepet. Yang Mama lakuin sekarang TIDAK SIA-SIA.</p>
+                    </div>
+
+                    <div class="profile-card strength">
+                        <h4>Mama Gak Sendirian</h4>
+                        <p>Komunikasi sama Papa - jangan pendam sendiri. Cari komunitas ibu - berbagi cerita meringankan. Professional help is okay - konseling, support group, dll.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mindset-both" class="tab-content">
+                <h2>Reminder untuk Kita Berdua</h2>
+
+                <div class="profile-grid">
+                    <div class="profile-card strength">
+                        <h4>Kita Satu Tim</h4>
+                        <p>Parenting itu TEAM sport, bukan kompetisi siapa lebih baik. Bagi tugas sesuai kekuatan masing-masing. "Thank you" dan "You did great" penting buat diucapkan.</p>
+                    </div>
+
+                    <div class="profile-card strength">
+                        <h4>Progress, Not Perfection</h4>
+                        <p>Gak ada orangtua yang sempurna. Yang penting: Hugo merasa dicintai, aman, dan didukung. Rayakan small wins: Hugo bilang kata baru, makan sendiri, dll.</p>
+                    </div>
+
+                    <div class="profile-card strength">
+                        <h4>Long-Term View</h4>
+                        <p>Fase ini TIDAK SELAMANYA - Hugo bakal besar. Tantangan hari ini investasi masa depan. Hugo yang di-parent dengan cinta dan konsistensi = Hugo yang tangguh.</p>
+                    </div>
+
+                    <div class="profile-card strength">
+                        <h4>Nikmati Perjalanan Ini</h4>
+                        <p>Di tengah capek, ada momen indah yang gak terulang. Tawa Hugo, pelukan tiba-tiba, "Papa/Mama" pertama kalinya. Document, tapi juga LIVE the moment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACTION PLAN SECTION -->
+        <div id="action" class="content-card">
+            <div class="hero">
+                <h1>Rencana 30 Hari Pertama</h1>
+                <p>Mulai dari Sekarang!</p>
+            </div>
+
+            <div class="progress-steps">
+                <div class="step current">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Minggu 1<br>Observasi</div>
+                </div>
+                <div class="step">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Minggu 2<br>Implementasi</div>
+                </div>
+                <div class="step">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Minggu 3<br>Optimalisasi</div>
+                </div>
+                <div class="step">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Minggu 4<br>Refleksi</div>
+                </div>
+            </div>
+
+            <h2>Minggu 1: Observasi & Setup</h2>
+            <ul class="checklist">
+                <li>Papa & Mama baca panduan ini bareng</li>
+                <li>Diskusi: pilih 3-5 strategi yang mau kita coba dulu (jangan semuanya sekaligus!)</li>
+                <li>Bikin jadwal kasar untuk weekday dan weekend</li>
+                <li>Siapin alat/mainan yang dibutuhkan</li>
+                <li>Mulai track: bikin catatan sederhana perkembangan Hugo (di notes HP aja)</li>
+            </ul>
+
+            <h2>Minggu 2: Implementasi Rutinitas</h2>
+            <ul class="checklist">
+                <li>Papa: mulai morning ritual dan bedtime routine</li>
+                <li>Mama: implementasi struktur hari yang konsisten</li>
+                <li>Terapkan strategi bahasa: modeling kalimat pendek</li>
+                <li>Maksimalkan screen time dengan diskusi habis nonton</li>
+                <li>Evaluasi: apa yang jalan lancar? Apa yang susah?</li>
+            </ul>
+
+            <h2>Minggu 3: Optimalisasi & Penyesuaian</h2>
+            <ul class="checklist">
+                <li>Tweak strategi berdasarkan evaluasi minggu 2</li>
+                <li>Tambahin 1-2 aktivitas baru yang cocok buat Hugo</li>
+                <li>Papa: coba bath time bonding minimal 2x seminggu</li>
+                <li>Mama: coba sensory play dan outdoor exploration</li>
+                <li>Diskusi progress: Papa & Mama sharing pengalaman</li>
+            </ul>
+
+            <h2>Minggu 4: Refleksi & Planning Lanjutan</h2>
+            <ul class="checklist">
+                <li>Review 30 hari: apa yang udah tercapai?</li>
+                <li>Celebrate wins - sekecil apapun!</li>
+                <li>Identifikasi area yang perlu improvement</li>
+                <li>Bikin plan untuk 3 bulan ke depan</li>
+                <li>Commit untuk konsisten - ini marathon, bukan sprint</li>
+            </ul>
+
+            <div class="info-box success">
+                <h4>🎉 Closing Note</h4>
+                <p>Hugo itu Active-Intentional Explorer yang lagi bangun fondasinya dengan kuat. Dengan cara kita dampingin yang tepat, konsisten, dan penuh cinta, potensi Hugo sangat besar.</p>
+                <p style="text-align: center; font-size: 1.3em; font-weight: bold; margin-top: 25px;">We got this! 💪</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Catatan Tumbuh Kembang Hugo</strong></p>
+            <p>Panduan pribadi keluarga kita</p>
+            <p style="margin-top: 20px; font-size: 0.9em;">💡 <em>Update catatan ini sesuai perkembangan Hugo - profilnya bakal berubah seiring waktu</em></p>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.content-card');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            document.getElementById(sectionId).classList.add('active');
+            
+            const buttons = document.querySelectorAll('nav button');
+            buttons.forEach(button => button.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showTab(tabId) {
+            const currentSection = document.querySelector('.content-card.active');
+            const tabContents = currentSection.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            
+            const tabButtons = currentSection.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const checklistItems = document.querySelectorAll('.checklist li');
+            checklistItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.classList.toggle('checked');
+                    this.style.textDecoration = this.classList.contains('checked') ? 'line-through' : 'none';
+                    this.style.opacity = this.classList.contains('checked') ? '0.6' : '1';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
