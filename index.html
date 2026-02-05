@@ -895,8 +895,6 @@
             }
         }
     </style>
-<script src=https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js>
-</script>
 </head>
 <body>
     <div class="container">
@@ -2359,23 +2357,6 @@
     </div>
 
     <script>
-
-// ═══════════════════════════════════════════════════════════════════ // GITHUB GISTS SYNC CONFIGURATION // ═══════════════════════════════════════════════════════════════════
-const GITHUB_CONFIG = {
-// Ganti dengan data Anda dari STEP 3 dan 4
-GIST_ID: '8bc7f4a9dc6c07222a1ff306fa4f34d7',
-GITHUB_TOKEN: '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',
-RAW_URL: 'https://gist.githubusercontent.com/malfinfamily-droid/8bc7f4a9dc6c07222a1ff306fa4f34d7/raw/8ba13897a6dd4c669f4150c0abe01ba21d98a601/hugo-tracker-data.json',
-GITHUB_USERNAME: 'malfinfamily-droid'
-};
-
-// Flag untuk menggunakan GitHub Gists
-const USE_GITHUB_GISTS = true;
-// Interval untuk check update (dalam milidetik)
-const SYNC_INTERVAL = 5000; // 5 detik
-// Variable untuk tracking
-let lastSyncTime = 0;
-let syncInProgress = false;
         // ═══════════════════════════════════════════════════════════════════
         // NAVIGATION
         // ═══════════════════════════════════════════════════════════════════
@@ -2550,116 +2531,6 @@ function updateStars(rating) {
     });
 }
 
- // ═══════════════════════════════════════════════════════════════════ // GITHUB GISTS SYNC FUNCTIONS // ═══════════════════════════════════════════════════════════════════
-/**
-* Load data dari GitHub Gist
-*/
-async function loadFromGitHub() {
-if (!USE_GITHUB_GISTS) return;
-
-try {
-console.log('📥 Loading data from GitHub Gist...');
-const response = await axios.get(GITHUB_CONFIG.RAW_URL);
-const data = response.data;
-
-if (data && data.hugoActivityTracking) {
-localStorage.setItem('hugoActivityTracking',
-JSON.stringify(data.hugoActivityTracking));
-console.log('✅ Data loaded from GitHub Gist successfully');
-return true;
-}
-} catch (error) {
-console.warn('⚠️ Failed to load from GitHub:', error.message);
-return false;
-}
-}
-
-/**
-* Save data ke GitHub Gist
-*/
-async function saveToGitHub() {
-if (!USE_GITHUB_GISTS || syncInProgress) return;
-
-syncInProgress = true;
-try {
-console.log('📤 Saving data to GitHub Gist...');
-const allTracking =
-JSON.parse(localStorage.getItem('hugoActivityTracking')) || [];
-const gistContent = {
-hugoActivityTracking: allTracking,
-lastUpdated: new Date().toISOString(),
-version: "1.0"
-};
-const response = await axios.patch(
-`https://api.github.com/gists/${GITHUB_CONFIG.GIST_ID}`,
-{
-files: {
-'hugo-tracker-data.json': {
-content: JSON.stringify(gistContent, null, 2)
-}
-}
-},
-{
-headers: {
-'Authorization': `token ${GITHUB_CONFIG.GITHUB_TOKEN}`,
-'Accept': 'application/vnd.github.v3+json'
-}
-}
-);
-console.log('✅ Data saved to GitHub Gist successfully');
-lastSyncTime = Date.now();
-return true;
-} catch (error) {
-console.error('❌ Error saving to GitHub:', error.response?.data ||
-error.message);
-return false;
-} finally {
-syncInProgress = false;
-}
-}
-
-/**
-* Check update dari GitHub secara berkala
-*/
-async function checkGitHubUpdates() {
-if (!USE_GITHUB_GISTS) return;
-// Jangan check terlalu sering
-if (Date.now() - lastSyncTime < SYNC_INTERVAL) return;
-
-try {
-const response = await axios.get(GITHUB_CONFIG.RAW_URL);
-const data = response.data;
-if (data && data.hugoActivityTracking) {
-const localData =
-JSON.parse(localStorage.getItem('hugoActivityTracking')) || [];
-// Jika data dari GitHub berbeda dengan lokal, update local
-if (JSON.stringify(data.hugoActivityTracking) !==
-JSON.stringify(localData)) {
-console.log('📥 Update dari GitHub terdeteksi, refresh data...');
-localStorage.setItem('hugoActivityTracking',
-JSON.stringify(data.hugoActivityTracking));
-
-// Reload history jika sedang ditampilkan
-const historyTab = document.getElementById('history');
-if (historyTab && historyTab.style.display !== 'none') {
-loadActivityHistory();
-}
-}
-}
-} catch (error) {
-console.warn('⚠️ Error checking updates:', error.message);
-}
-}
-// Setup auto-sync saat halaman dimuat
-window.addEventListener('DOMContentLoaded', function() {
-console.log('🔄 Initializing GitHub Gists Sync...');
-// Load data dari GitHub saat pertama kali
-loadFromGitHub();
-// Setup interval untuk check update
-setInterval(checkGitHubUpdates, SYNC_INTERVAL);
-console.log('✅ GitHub Gists Sync initialized');
-});
-
 // ═══════════════════════════════════════════════════════════════════
 // ACTIVITY TRACKING SYSTEM
 // ═══════════════════════════════════════════════════════════════════
@@ -2715,22 +2586,12 @@ function saveActivityTracking() {
     let allTracking = JSON.parse(localStorage.getItem('hugoActivityTracking')) || [];
     allTracking.push(tracking);
     
-    // Save to localStorage
-localStorage.setItem('hugoActivityTracking',
-JSON.stringify(allTracking));
-// Save to GitHub Gist
-if (USE_GITHUB_GISTS) {
-saveToGitHub().then(success => {
-if (success) {
-console.log('✅ Data tersinkronisasi ke GitHub');
-} else {
-console.warn('⚠️ Data tersimpan lokal, tapi gagal sync ke GitHub');
-}
-});
-}
-
-// Clear form 
-clearTrackingForm();     
+    // Save
+    localStorage.setItem('hugoActivityTracking', JSON.stringify(allTracking));
+    
+    // Clear form
+    clearTrackingForm();
+    
     alert('✅ Tracking aktivitas berhasil disimpan!');
     
     // Auto switch to history tab
