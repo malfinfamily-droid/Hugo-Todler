@@ -968,48 +968,94 @@
     }
 
     /* ===== TABLES MOBILE ===== */
-    .schedule-table {
-        font-size: 0.85em;
-        display: block;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
+.schedule-table {
+    font-size: 0.85em;
+    border-radius: 8px;
+    overflow: hidden;
+}
 
-    .schedule-table thead,
-    .schedule-table tbody,
-    .schedule-table tr,
-    .schedule-table th,
-    .schedule-table td {
-        display: block;
-    }
+/* Keep header visible but make it sticky */
+.schedule-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
 
+.schedule-table thead tr {
+    display: flex;
+}
+
+.schedule-table thead th {
+    flex: 1;
+    padding: 12px 8px;
+    font-size: 0.85em;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Make table scrollable horizontally if needed */
+.schedule-table tbody {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.schedule-table tbody tr {
+    display: flex;
+}
+
+.schedule-table tbody td {
+    flex: 1;
+    padding: 12px 8px;
+    font-size: 0.85em;
+    text-align: center;
+    border-bottom: 1px solid #e9ecef;
+    min-width: 80px;
+}
+
+/* Alternative: Stack layout for very narrow screens */
+@media (max-width: 480px) {
+    /* Show table as cards on very small screens */
     .schedule-table thead {
-        display: none; /* Hide header on mobile */
+        display: none;
     }
-
-    .schedule-table tr {
+    
+    .schedule-table tbody {
+        display: block;
+    }
+    
+    .schedule-table tbody tr {
+        display: block;
         margin-bottom: 15px;
         border: 1px solid #e9ecef;
         border-radius: 8px;
-        padding: 10px;
+        padding: 12px;
         background: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
-
-    .schedule-table td {
-        border: none;
-        padding: 8px 10px;
+    
+    .schedule-table tbody td {
+        display: block;
         text-align: left;
+        padding: 8px 0;
+        border: none;
+        min-width: auto;
         position: relative;
-        padding-left: 50%;
+        padding-left: 45%;
     }
-
-    .schedule-table td:before {
+    
+    .schedule-table tbody td:before {
         content: attr(data-label);
         position: absolute;
-        left: 10px;
+        left: 0;
         font-weight: bold;
         color: var(--navy);
+        width: 40%;
     }
+}
 
     /* ===== FORMS MOBILE ===== */
     .form-row {
@@ -3627,6 +3673,29 @@ function setInputValue(id, value) {
         element.value = value;
     }
 }
+// Auto-add data-label for all financial tables
+document.addEventListener('DOMContentLoaded', function() {
+    const tables = document.querySelectorAll('.schedule-table');
+    
+    tables.forEach(table => {
+        const headers = [];
+        const headerCells = table.querySelectorAll('thead th');
+        
+        headerCells.forEach(th => {
+            headers.push(th.textContent.trim());
+        });
+        
+        const rows = table.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            cells.forEach((cell, index) => {
+                if (headers[index]) {
+                    cell.setAttribute('data-label', headers[index]);
+                }
+            });
+        });
+    });
+});
 </script>
 
 </body>
