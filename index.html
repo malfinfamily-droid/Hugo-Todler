@@ -2563,7 +2563,7 @@ function quickTrack(activityName) {
 }
 
 function saveActivityTracking() {
-    const tracking = {
+    const newTracking = {  // ✅ UBAH NAMA INI
         id: Date.now(),
         date: document.getElementById('track-date').value,
         activity: document.getElementById('track-activity').value,
@@ -2577,14 +2577,14 @@ function saveActivityTracking() {
     };
     
     // Validation
-    if (!tracking.date || !tracking.activity || !tracking.rating) {
+    if (!newTracking.date || !newTracking.activity || !newTracking.rating) {  // ✅ UBAH INI
         alert('⚠️ Mohon isi: Tanggal, Nama Aktivitas, dan Rating!');
         return;
     }
     
     // Get existing data
     let allTracking = JSON.parse(localStorage.getItem('hugoActivityTracking')) || [];
-    allTracking.push(tracking);
+    allTracking.push(newTracking);  // ✅ UBAH INI
     
     // Save
     localStorage.setItem('hugoActivityTracking', JSON.stringify(allTracking));
@@ -2600,17 +2600,34 @@ function saveActivityTracking() {
     }, 500);
 }
 
+
 function clearTrackingForm() {
-    document.getElementById('track-date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('track-activity').value = '';
-    document.getElementById('track-category').value = '';
-    document.getElementById('track-attempt').value = '1';
+    const dateInput = document.getElementById('track-date');
+    const activityInput = document.getElementById('track-activity');
+    const categoryInput = document.getElementById('track-category');
+    const attemptInput = document.getElementById('track-attempt');
+    const notesInput = document.getElementById('track-notes');
+    const durationInput = document.getElementById('track-duration');
+    const moodInput = document.getElementById('track-mood');
+    const withWhoInput = document.getElementById('track-with-who');
+    
+    // ✅ SAFETY CHECK sebelum set value
+    if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+    if (activityInput) activityInput.value = '';
+    if (categoryInput) categoryInput.value = '';
+    if (attemptInput) attemptInput.value = '1';
+    if (notesInput) notesInput.value = '';
+    if (durationInput) durationInput.value = '';
+    if (moodInput) moodInput.value = '';
+    if (withWhoInput) withWhoInput.value = '';
+    
     selectedRating = 0;
-    updateStars(0);
-    document.getElementById('track-notes').value = '';
-    document.getElementById('track-duration').value = '';
-    document.getElementById('track-mood').value = '';
-    document.getElementById('track-with-who').value = '';
+    
+    // ✅ SAFETY CHECK untuk stars
+    const stars = document.querySelectorAll('.star');
+    if (stars && stars.length > 0) {
+        updateStars(0);
+    }
 }
 
 // ═══════════════════════════════════════════════════════════════════
